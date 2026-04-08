@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     services:
       postgres:
-        image: postgres:latest
+        image: postgres:17
         env:
           POSTGRES_USER: user
           POSTGRES_PASSWORD: password
@@ -40,11 +40,11 @@ jobs:
           python -m venv venv
           source venv/bin/activate
           pip install -r requirements.txt
-          playwright install
+          python -m playwright install --with-deps chromium
       - name: Run tests
         run: |
           source venv/bin/activate
-          pytest tests/unit/ --cov=src --junitxml=test-results/junit.xml
+          pytest tests/unit/ --cov=app --junitxml=test-results/junit.xml
           pytest tests/integration/
           pytest tests/e2e/
   security:
